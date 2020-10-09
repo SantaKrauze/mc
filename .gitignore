@@ -1,3 +1,4 @@
 git status
+*.o
 drunkard
 pi

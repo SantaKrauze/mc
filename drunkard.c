@@ -4,7 +4,7 @@
 #include <math.h>
 
 void printToFile (int k, double var);
-double varCalc (int x, int n);
+double varCalc (int x, int n, int k);
 void drunkard (int n, int k);
 
 int main(){
@@ -35,7 +35,7 @@ void drunkard (int n, int k){
 	}
 }
 
-double varCalc (int xn, int n){
+double varCalc (int xn, int n, int k){
 	double var;
 	double sig;
 	var = xn*xn;
