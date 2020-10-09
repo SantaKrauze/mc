@@ -6,6 +6,7 @@ Drunkard::Drunkard(long int n, int k){
 	long int x;
 	float r;
 	std::cout<<K<<" drunks, "<<N<<" steps each\n";
+	//srand(time(NULL));
 	for (int i = 0; i < K; i++){//iterating drunks
 		x = 0;
 		for (long int j = 0; j < N; j++){//iterating steps
@@ -28,8 +29,8 @@ void Drunkard::printToFile(){
 }
 
 double Drunkard::varCalc(){
-	double sqrAvgs = 0;//square of averages
-	double avgSqrs = 0;//average of squares
+	long double sqrAvgs = 0;//square of averages
+	long double avgSqrs = 0;//average of squares
 	for (int i = 0; i < K; i++){
 		sqrAvgs += Xn.at(i);
 		avgSqrs += Xn.at(i) * Xn.at(i);
