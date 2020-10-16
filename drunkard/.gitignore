@@ -4,3 +4,4 @@ pi
 *.o
 *.swp
 *.png
+*.log
