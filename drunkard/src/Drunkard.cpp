@@ -5,6 +5,7 @@ Drunkard::Drunkard(long int n, int k){
 	N = n;
 	long int x;
 	float r;
+	filepath = "data.dat";
 	std::cout<<K<<" drunks, "<<N<<" steps each\n";
 	//srand(time(NULL));
 	for (int i = 0; i < K; i++){//iterating drunks
@@ -26,6 +27,9 @@ Drunkard::Drunkard(long int n, int k){
 }
 
 void Drunkard::printToFile(){
+	data.open(filepath, std::ios_base::app);
+	data<<log(N)<<"\t"<<log(varCalc())<<std::endl;
+	data.close();
 }
 
 double Drunkard::varCalc(){
@@ -39,4 +43,5 @@ double Drunkard::varCalc(){
 	sqrAvgs = sqrAvgs * sqrAvgs;
 	avgSqrs = avgSqrs / K;
 	return sqrt(avgSqrs - sqrAvgs);
+	//return avgSqrs - sqrAvgs;
 }
