@@ -1,7 +1,7 @@
 #!/bin/bash
 
-counter=1
-while [ $counter -le 100000 ]; do
+counter=100
+while [ $counter -le 1000000 ]; do
 	./drunkard $counter
 	counter=$(($counter*2))
 done
