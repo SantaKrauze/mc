@@ -1,0 +1,7 @@
+*.out
+quantum
+*.o
+*.swp
+*.png
+*.jpg
+*.log
