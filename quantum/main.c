@@ -9,7 +9,7 @@ float indexToX(int index);
 //float randomPhi(int index);
 
 int main(){
-	int steps = 1000000, index;
+	int steps = 100000, index;
 	float phiStart = 0.01, dPhi = 0.1;
 	float phiTrial, r, denominator, phi[TSIZE], U = 0, T = 0, numerator, E0;
 	for (int i = 0; i < TSIZE; i++) {
@@ -38,7 +38,7 @@ int main(){
 			phi[index] = phiTrial;
 			E0 = newE;
 		}
-		//printf(" x:%.3f\t phi:%.4f\t phi_trial:%.4f\t newE:%f\n", indexToX(index), phi[index], phiTrial, newE);
+		//printf(" dT:%.3f\t dU:%.4f\t phi_trial:%.4f\t E:%f\n", dT, dU, phiTrial, E0);
 	}
 	printf("E = %f\n", E0);
 	return 0;
