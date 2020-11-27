@@ -6,16 +6,15 @@
 #define UNIT 0.01
 
 float indexToX(int index);
-//float randomPhi(int index);
+float calcV(float x);
 
 int main(){
-	int steps = 1000000, index;
+int steps = 1000000, index;
 	float phiStart = 0.01, dPhi = 0.1;
 	float phiTrial, r, denominator = 0 , phi[TSIZE], U = 0, T = 0, numerator, E0;
 	for (int i = 0; i < TSIZE; i++) {
 		phi[i] = phiStart;
-		float x = indexToX(i);
-		U = U + (phi[i] * phi[i] * x * x * 0.5);//potential energy
+		U = U + (phi[i] * phi[i] * calcV( indexToX(i) ));//potential energy
 		denominator = denominator + phi[i] * phi[i];
 	}
 	for (int i = 1; i < TSIZE-1; i++) T = T + phi[i] * (2 * phi[i] - phi[i-1] - phi[i+1]);
@@ -31,14 +30,13 @@ int main(){
 		phiTrial = phi[index] + (r - 0.5)*dPhi;
 		float deltaPhi = phiTrial - phi[index];
 		float dU, dT;
-		float x = indexToX(index);
-		float deltaPhiSqr = phiTrial * phiTrial - phi[index] * phi[index];
+		float deltaPhiSqr = (phiTrial * phiTrial) - (phi[index] * phi[index]);
 
 		if (index == 0) dT = (deltaPhiSqr - deltaPhi * phi[index+1]) / (UNIT * UNIT);
 		else if (index == TSIZE-1) dT = (deltaPhiSqr - deltaPhi * phi[index-1]) / (UNIT * UNIT);
 		else dT = (deltaPhiSqr  - deltaPhi * (phi[index+1] - phi[index-1])) / (UNIT * UNIT);
 
-		dU = deltaPhi * deltaPhi * x * x / 2;
+		dU = deltaPhiSqr * calcV( indexToX(index) );
 		float newNumerator = numerator + dU + dT;
 		float newDenominator = denominator + deltaPhiSqr;
 		float newE = newNumerator / newDenominator;//new energy
@@ -48,10 +46,15 @@ int main(){
 			numerator = newNumerator;
 			denominator = newDenominator;
 		}
+		//printf("index: %d\n",index);
 		//if (i%10000 == 0) printf(" dT:%.3f\t dU:%.4f\t step:%d\t E:%f\n", dT, dU, i, E0);
 	}
 	printf("E = %f\n", E0);
 	return 0;
+}
+
+float calcV (float x){
+	return x*x/2;
 }
 
 float indexToX(int index){
