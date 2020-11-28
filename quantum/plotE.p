@@ -4,4 +4,4 @@ set output "plot.png"
 set xlab "MSC"
 set ylab "E"
 
-plot "data" u 2:1 title "E(x)"
+plot "energy.dat" u 2:1 title "E(MCS)"
