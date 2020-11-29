@@ -5,3 +5,5 @@ quantum
 *.log
 *.png
 *.dat
+*.aux
+*.dvi
