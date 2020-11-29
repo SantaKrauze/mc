@@ -60,7 +60,7 @@ int main(){
 	for (int i = 0; i <= PART;i++){
 		phiToFile(phi[i], calcX(i, unit), denominator );
 	}
-	printf("E = %f\n", E);
+	printf("E = %f, denominator = %f\n", E, denominator);
 	return 0;
 }
 
