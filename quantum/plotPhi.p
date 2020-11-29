@@ -1,5 +1,5 @@
 set terminal png size 1000,800 enhanced
-set output "phi.png"
+set output "report/phi.png"
 
 set xlab "x"
 set ylab "phi"
