@@ -18,7 +18,7 @@ int main(){
 	float dPhi = 0.1;
 	float denominator = 0;
 	float phi[TSIZE+1]; 
-	float U = 0, T = 0, numerator, E0, r, phiTrial;
+	float U = 0, T = 0, numerator, E, r, phiTrial;
 	for (int i = 0; i <= TSIZE; i++) {
 		phi[i] = phiStart;
 		U += (phi[i] * phi[i] * calcV( calcX(i, unit) ));//potential energy
@@ -32,8 +32,8 @@ int main(){
 	T += 0.5*phi[TSIZE] * (2 * phi[TSIZE] - phi[TSIZE-1]);
 	T = T / (unit * unit);//kinetic energy
 	numerator = U + T;
-	E0 = numerator / denominator;//starting energy
-	printf("E0 = (%f+%f)/%f = %f\n", U, T, denominator, E0);
+	E = numerator / denominator;//starting energy
+	printf("E = %f\n", E);
 	float deltaPhi, dU,dT, deltaPhiSqr, newE;
 
 	for (int i = 0; i <= steps; i++){
@@ -49,18 +49,18 @@ int main(){
 
 		dU = deltaPhiSqr * calcV( calcX(index, unit) );
 		newE = (numerator + dU + dT) / (denominator + deltaPhiSqr);//new energy
-		if (newE < E0 && newE > 0){
+		if (newE < E && newE > 0){
 			phi[index] = phiTrial;
-			E0 = newE;
+			E = newE;
 			numerator += dU + dT;
 			denominator += deltaPhiSqr;
 		}
-		if(i%100000==0) energyToFile(E0, i);
+		if(i%100000==0) energyToFile(E, i);
 	}
 	for (int i = 0; i <= TSIZE;i++){
 		phiToFile(phi[i], calcX(i, unit) );
 	}
-	printf("E = %f\n", E0);
+	printf("E = %f\n", E);
 	return 0;
 }
 
