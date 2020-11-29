@@ -2,48 +2,48 @@
 #include <math.h>
 #include <stdlib.h>
 #include <time.h>
-#define TSIZE 200
+#define PART 200
 
 float calcX(int index, float unit);
 float calcV(float x);
 void energyToFile(float E, int step);
-void phiToFile(float phi, float x);
+void phiToFile(float phi, float x, float denominator);
 float set(float phi, float dphi);
 
 int main(){
-	float unit = (float) 8 / TSIZE;
+	float unit = (float) 8 / PART;
 	int steps = 1000000000;
         int index;
 	float phiStart = 0.1;
 	float dPhi = 0.1;
 	float denominator = 0;
-	float phi[TSIZE+1]; 
+	float phi[PART+1]; 
 	float U = 0, T = 0, numerator, E, r, phiTrial;
-	for (int i = 0; i <= TSIZE; i++) {
+	for (int i = 0; i <= PART; i++) {
 		phi[i] = phiStart;
 		U += (phi[i] * phi[i] * calcV( calcX(i, unit) ));//potential energy
 		denominator += phi[i] * phi[i];
 	}
 
-	for (int i = 1; i < TSIZE; i++){
+	for (int i = 1; i < PART; i++){
 	       	T += 0.5 * phi[i] * (2 * phi[i] - phi[i-1] - phi[i+1]);
 	}
 	T +=0.5*phi[0] * (2 * phi[0] - phi[1]);
-	T += 0.5*phi[TSIZE] * (2 * phi[TSIZE] - phi[TSIZE-1]);
+	T += 0.5*phi[PART] * (2 * phi[PART] - phi[PART-1]);
 	T = T / (unit * unit);//kinetic energy
 	numerator = U + T;
 	E = numerator / denominator;//starting energy
-	printf("E = %f\n", E);
+	printf("E0 = %f\n", E);
 	float deltaPhi, dU,dT, deltaPhiSqr, newE;
 
 	for (int i = 0; i <= steps; i++){
 		r = (float)rand()/RAND_MAX;
-		index = rand() % TSIZE;
+		index = rand() % PART;
 		phiTrial = phi[index] + (r - 0.5)*dPhi;
 		deltaPhi = phiTrial - phi[index];
 		deltaPhiSqr = (phiTrial * phiTrial) - (phi[index] * phi[index]);
 		if (index == 0) dT = (deltaPhiSqr - (deltaPhi * phi[index+1]));
-		else if (index == TSIZE) dT = (deltaPhiSqr - (deltaPhi * phi[index-1]));
+		else if (index == PART) dT = (deltaPhiSqr - (deltaPhi * phi[index-1]));
 		else dT = (deltaPhiSqr  - deltaPhi * (phi[index+1] + phi[index-1]));
 		dT = dT / (unit*unit);
 
@@ -57,17 +57,18 @@ int main(){
 		}
 		if(i%100000==0) energyToFile(E, i);
 	}
-	for (int i = 0; i <= TSIZE;i++){
-		phiToFile(phi[i], calcX(i, unit) );
+	for (int i = 0; i <= PART;i++){
+		phiToFile(phi[i], calcX(i, unit), denominator );
 	}
 	printf("E = %f\n", E);
 	return 0;
 }
 
-void phiToFile(float phi, float x){
+void phiToFile(float phi, float x, float denominator){
 	FILE *file;
 	file = fopen("phi.dat","a+");
-	fprintf(file,"%f\t%f\n",x, phi);
+	float phiNorm = phi/sqrt(denominator);
+	fprintf(file,"%f\t%f\n",x, phiNorm);
 	fclose(file);
 }
 
@@ -83,7 +84,7 @@ float calcV (float x){
 }
 
 float calcX(int index, float unit){
-	if (index > TSIZE || index < 0){
+	if (index > PART || index < 0){
 		printf("%d - wrong index - out of scope\n", index);
 		return 10;
 	}
