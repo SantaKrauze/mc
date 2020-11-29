@@ -2,7 +2,7 @@
 #include <math.h>
 #include <stdlib.h>
 #include <time.h>
-#define TSIZE 800
+#define TSIZE 200
 
 float calcX(int index, float unit);
 float calcV(float x);
@@ -12,9 +12,9 @@ float set(float phi, float dphi);
 
 int main(){
 	float unit = (float) 8 / TSIZE;
-	int steps = 10000000;
+	int steps = 1000000000;
         int index;
-	float phiStart = 0.01;
+	float phiStart = 0.1;
 	float dPhi = 0.1;
 	float denominator = 0;
 	float phi[TSIZE+1]; 
@@ -55,7 +55,7 @@ int main(){
 			numerator += dU + dT;
 			denominator += deltaPhiSqr;
 		}
-		if(i%1000==0) energyToFile(E0, i);
+		if(i%100000==0) energyToFile(E0, i);
 	}
 	for (int i = 0; i <= TSIZE;i++){
 		phiToFile(phi[i], calcX(i, unit) );
