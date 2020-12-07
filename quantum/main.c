@@ -7,7 +7,7 @@
 float calcX(int index, float unit);
 float calcV(float x);
 void energyToFile(float E, int step);
-void phiToFile(float phi, float x, float denominator);
+void phiToFile(float phi, float x, float denominator, float unit);
 float set(float phi, float dphi);
 
 int main(){
@@ -57,17 +57,20 @@ int main(){
 		}
 		if(i%100000==0) energyToFile(E, i);
 	}
+	/*for (int i = 0; i < PART; i++){
+		norm = unit*(phi[i]*phi[i] + phi[i+1]*phi[i+1])/2;
+	}*/
 	for (int i = 0; i <= PART;i++){
-		phiToFile(phi[i], calcX(i, unit), denominator );
+		phiToFile(phi[i], calcX(i, unit), denominator, unit);
 	}
 	printf("E = %f, denominator = %f\n", E, denominator);
 	return 0;
 }
 
-void phiToFile(float phi, float x, float denominator){
+void phiToFile(float phi, float x, float denominator, float unit){
 	FILE *file;
 	file = fopen("phi.dat","a+");
-	float phiNorm = phi/sqrt(denominator);
+	float phiNorm = phi/sqrt(denominator*unit);
 	fprintf(file,"%f\t%f\n",x, phiNorm);
 	fclose(file);
 }
