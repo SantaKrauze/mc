@@ -1,2 +1,8 @@
 *.aux
 *.dvi
+*.out
+*.o
+*.log
+*.png
+*.jpg
+*.pdf
