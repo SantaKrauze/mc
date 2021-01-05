@@ -3,6 +3,8 @@
 
 int main(int argc, char* argv[]){
 	long int steps = 230000;
+	int skip = 30000;
+	int inter = 100;
 	float T = atof(argv[1]);
 	int L = atoi(argv[2]);
 	int S[L][L], PI[L], NI[L];
@@ -52,18 +54,19 @@ int main(int argc, char* argv[]){
 				}
 			}
 		}	
-		if(i%100 == 0 && i > 30000){//gathering data for average values
+		if(i%inter == 0 && i > skip){//gathering data for average values
 			for(int i = 0; i < L; i++){
 				for(int j = 0; j < L; j++){
 					mTemp += S[i][j];
 				}
 			}
-			mTemp = abs(mTemp / (L*L));
-			m += mTemp;
+			mTemp = mTemp / (L*L);
+			m += abs(mTemp);
+			//m = m / ((steps-skip)/inter);
 			//printf("%e\n",m);
 		}
 	}
-	m = m / 2000;
+	m = m / ((steps-skip)/inter);
 	printf("<m> = %e\tT* = %.2f\tL = %d\n",m,T,L);
 
 	return 0;
