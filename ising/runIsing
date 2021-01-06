@@ -1,16 +1,7 @@
 #!/bin/bash
 
-echo "L=5"
-./ising 0.1 5
-./ising 2.269 5
-./ising 10 5
-
-echo "L=20"
-./ising 0.1 20
-./ising 2.269 20
-./ising 10 20
-
-echo "L=80"
-./ising 0.1 80
-./ising 2.269 80
-./ising 10 80
+echo "Starting..."
+./ising5 > data5.dat
+./ising20 > data20.dat
+./ising80 > data80.dat
+echo "Done"

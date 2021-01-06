@@ -1,0 +1,5 @@
+#!/bin/bash
+./ising 0.1 5
+./ising 2.269 5
+./ising 10 5
+

@@ -53,7 +53,7 @@ int main(int argc, char* argv[]){
 		}
 	}
 	m /= usedConfigs;
-	printf("<m> = %.2e\tT* = %.2f\tL = %d\n",m,T,L);
+	printf("%.3e\t%.3f\t%d\n", m, T, L);
 
 	return 0;
 }
