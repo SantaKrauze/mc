@@ -62,6 +62,7 @@ int main(int argc, char* argv[]){
 			}
 			mTemp = mTemp / (L*L);
 			m += abs(mTemp);
+			mTemp=0;
 			//m = m / ((steps-skip)/inter);
 			//printf("%e\n",m);
 		}
