@@ -28,7 +28,6 @@ int main(int argc, char* argv[]){
 	for(int i = 1; i <= steps; i++){//main loop
 		for(int j = 0; j < L; j++){
 			for(int k = 0; k < L; k++){
-				sTrial = -S[j][k];
 				dE = 2*S[j][k] * ( S[N[j]][k] + S[P[j]][k] + S[j][N[k]] + S[j][P[k]] );
 				if(dE < 0){
 					S[j][k] = -S[j][k];
