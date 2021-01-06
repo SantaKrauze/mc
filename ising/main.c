@@ -4,71 +4,64 @@
 int main(int argc, char* argv[]){
 	long int steps = 230000;
 	int skip = 30000;
-	int inter = 100;
+	int interval = 100;
+
 	float T = atof(argv[1]);
 	int L = atoi(argv[2]);
-	int S[L][L], PI[L], NI[L];
-	for(int i = 1; i < L; i++){
-		NI[i] = i + 1;
-		PI[i] = i - 1;
+	int S[L][L], P[L], N[L];
+	for(int i = 0; i < L; i++){//nearest neighbor
+		N[i] = i + 1;//next
+		P[i] = i - 1;//previous
 	}
-	NI[0] = 1;
-	PI[0] = L-1;
-	NI[L-1] = 0;
+	P[0] = L-1;
+	N[L-1] = 0;
 	float R;
 	for(int i = 0; i < L; i++){//initial config
 		for(int j = 0; j < L; j++){
-			R = (float)rand()/RAND_MAX;
-			if(R > 0.5) S[i][j] = 1;
-			else S[i][j] = -1;
-			//printf("\t%d",S[i][j]);
+			//R = (float)rand()/RAND_MAX;
+			//if(R > 0.5) S[i][j] = 1;
+			//else S[i][j] = -1;
+			S[i][j] = 1;
 		}
-		//printf("\n");
 	}
 	int dE; 
-	float omega, B[5];
-	for(int i = 0, d = -8; i < 5; i++, d += 4){
-		B[i] = exp(-d/T);
-		//printf("%d: %e\n",d,B[i]);
-	}
+	float omega;
+	
 	int sTrial;
-	float m = 0, mTemp = 0;
+	float m = 0, mTemp, usedConfigs = (steps-skip)/interval;
 	for(int i = 1; i <= steps; i++){//main loop
 		for(int j = 0; j < L; j++){
 			for(int k = 0; k < L; k++){
-
-				if(S[j][k] == 1) sTrial = -1;
-				else sTrial = 1;
-				
-				dE = -2 * sTrial * ( S[NI[j]][k] + S[PI[j]][k] + S[j][NI[k]] + S[j][PI[k]] );
+				sTrial = -S[j][k];
+				dE = 2*S[j][k] * ( S[N[j]][k] + S[P[j]][k] + S[j][N[k]] + S[j][P[k]] );
 				if(dE < 0){
 					S[j][k] = sTrial;
 				}
 				else{
 					omega = exp(-dE/T);
-					//printf("omega%d:\t%.3f\n",i,omega);
 					R = (float)rand()/RAND_MAX;
-					if(R < omega){//reversed accept condition
+					if(R < omega){
 						S[j][k] = sTrial;
 					}
 				}
 			}
 		}	
-		if(i%inter == 0 && i > skip){//gathering data for average values
+		if(i%interval == 0 && i >= skip){//gathering data for average values
+			mTemp = 0;
 			for(int i = 0; i < L; i++){
 				for(int j = 0; j < L; j++){
 					mTemp += S[i][j];
 				}
+				//mTemp /+ (L*L);
+				//m += abs(mTemp);
 			}
-			mTemp = mTemp / (L*L);
-			m += abs(mTemp);
-			mTemp=0;
-			//m = m / ((steps-skip)/inter);
+			mTemp = abs(mTemp) / (L*L);
+			m += mTemp;
 			//printf("%e\n",m);
 		}
 	}
-	m = m / ((steps-skip)/inter);
-	printf("<m> = %e\tT* = %.2f\tL = %d\n",m,T,L);
+	m /= usedConfigs;
+	printf("<m> = %.2e\tT* = %.2f\tL = %d\n",m,T,L);
 
 	return 0;
 }
