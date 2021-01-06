@@ -6,42 +6,38 @@ int main(int argc, char* argv[]){
 	int skip = 30000;
 	int interval = 100;
 
-	float T = atof(argv[1]);
+	float T = atof(argv[1]), R;
 	int L = atoi(argv[2]);
 	int S[L][L], P[L], N[L];
+
 	for(int i = 0; i < L; i++){//nearest neighbor
 		N[i] = i + 1;//next
 		P[i] = i - 1;//previous
 	}
 	P[0] = L-1;
 	N[L-1] = 0;
-	float R;
+
 	for(int i = 0; i < L; i++){//initial config
 		for(int j = 0; j < L; j++){
-			//R = (float)rand()/RAND_MAX;
-			//if(R > 0.5) S[i][j] = 1;
-			//else S[i][j] = -1;
 			S[i][j] = 1;
 		}
 	}
+
 	int dE; 
-	float omega;
-	
-	int sTrial;
-	float m = 0, mTemp, usedConfigs = (steps-skip)/interval;
+	float omega, m = 0, mTemp, usedConfigs = (steps-skip)/interval;
 	for(int i = 1; i <= steps; i++){//main loop
 		for(int j = 0; j < L; j++){
 			for(int k = 0; k < L; k++){
 				sTrial = -S[j][k];
 				dE = 2*S[j][k] * ( S[N[j]][k] + S[P[j]][k] + S[j][N[k]] + S[j][P[k]] );
 				if(dE < 0){
-					S[j][k] = sTrial;
+					S[j][k] = -S[j][k];
 				}
 				else{
 					omega = exp(-dE/T);
 					R = (float)rand()/RAND_MAX;
 					if(R < omega){
-						S[j][k] = sTrial;
+						S[j][k] = -S[j][k];
 					}
 				}
 			}
@@ -52,12 +48,9 @@ int main(int argc, char* argv[]){
 				for(int j = 0; j < L; j++){
 					mTemp += S[i][j];
 				}
-				//mTemp /+ (L*L);
-				//m += abs(mTemp);
 			}
 			mTemp = abs(mTemp) / (L*L);
 			m += mTemp;
-			//printf("%e\n",m);
 		}
 	}
 	m /= usedConfigs;
