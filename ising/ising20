@@ -5,14 +5,15 @@ while [ $counter -le 100 ]; do
 	./ising $((counter)) 20
 	counter=$((counter+1))
 done
-./ising 22.65 20
-./ising 22.66 20
-./ising 22.67 20
-./ising 22.68 20
+
+./ising 21.19 20
+./ising 21.49 20
+./ising 21.79 20
+./ising 22.09 20
+./ising 22.39 20
 ./ising 22.69 20
-./ising 22.70 20
-./ising 22.71 20
-./ising 22.72 20
-./ising 22.73 20
-./ising 22.74 20
-./ising 22.75 20
+./ising 22.99 20
+./ising 23.29 20
+./ising 23.59 20
+./ising 23.89 20
+./ising 24.19 20

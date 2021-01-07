@@ -5,5 +5,5 @@ set xlabel "T*"
 set ylabel "<m>"
 set xrange [0:11]
 set yrange [0:1.1]
-set output "report/plot.png"
-plot "data5.dat" u 2:1 with linespoints t "L=5", "data20.dat" u 2:1 with linespoints t "L=20", "data80.dat" u 2:1 with linespoints t "L=80"
+set output "report/mofT.png"
+plot "data5.dat" u 2:1 with points t "L=5", "data20.dat" u 2:1 with points t "L=20", "data80.dat" u 2:1 with points t "L=80"
