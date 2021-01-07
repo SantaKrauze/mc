@@ -6,7 +6,8 @@ int main(int argc, char* argv[]){
 	int skip = 30000;
 	int interval = 100;
 
-	float T = atof(argv[1]), R;
+	float T = atof(argv[1])/10;
+	float R;
 	int L = atoi(argv[2]);
 	int S[L][L], P[L], N[L];
 

@@ -1,5 +1,18 @@
 #!/bin/bash
-./ising 0.1 5
-./ising 2.269 5
-./ising 10 5
 
+counter=1
+while [ $counter -le 100 ]; do
+	./ising $((counter)) 5
+	counter=$((counter+1))
+done
+./ising 2.265 5
+./ising 2.266 5
+./ising 2.267 5
+./ising 2.268 5
+./ising 2.269 5
+./ising 2.27 5
+./ising 2.271 5
+./ising 2.272 5
+./ising 2.273 5
+./ising 2.274 5
+./ising 2.275 5

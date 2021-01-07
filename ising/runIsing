@@ -2,6 +2,9 @@
 
 echo "Starting..."
 ./ising5 > data5.dat
+echo "L = 5 done"
 ./ising20 > data20.dat
+echo "L = 20 done"
 ./ising80 > data80.dat
-echo "Done"
+echo "L = 80 done"
+echo "All done"
