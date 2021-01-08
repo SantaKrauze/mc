@@ -1,0 +1,10 @@
+#!/bin/bash
+
+echo "Starting..."
+./ising 5 10 2 > flips5.dat
+echo "L = 5 done"
+./ising 20 17 2 > flips20.dat
+echo "L = 20 done"
+./ising 80 25 2 > flips80.dat
+echo "L = 80 done"
+echo "All done"

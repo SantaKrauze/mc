@@ -51,16 +51,26 @@ int main(int argc, char* argv[]){
 					mTemp += S[i][j];
 				}
 			}
-			mTemp = abs(mTemp) / (L*L);
-			m += mTemp;
+			if(atoi(argv[3]) == 2){
+				mTemp /= (L*L);
+				//m += mTemp;
+				if(i%2000 == 0){
+					printf("%.3e\t%d\n",mTemp,i);
+				}
+			}
+			else{
+				mTemp = abs(mTemp) / (L*L);
+				m += mTemp;
+			}	
 		}
 	}
-	m /= usedConfigs;
+	if(atoi(argv[3]) != 2) {
+		m /= usedConfigs;
+		printf("%.3e\t%.3f\t%d\n", m, T, L);
+	}
 	if(atoi(argv[3]) == 1){
 		FILE *fptr;
 		char size[3];
-		//char temp[3];
-		//snprintf(temp,sizeof(temp),"%d",T);
 		snprintf(size, sizeof(size), "%d", L);
 		fptr = fopen(size,"w");
 		for(int i = 0; i < L; i++){
@@ -70,8 +80,7 @@ int main(int argc, char* argv[]){
 			fprintf(fptr,"\n");
 		}
 		fclose(fptr);
-	}
-	printf("%.3e\t%.3f\t%d\n", m, T, L);
+	}	
 
 	return 0;
 }
