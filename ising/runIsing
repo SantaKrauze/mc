@@ -1,10 +1,10 @@
 #!/bin/bash
 
 echo "Starting..."
-./ising5 > data5.dat
+./src/ising5 > data/data5.dat
 echo "L = 5 done"
-./ising20 > data20.dat
+./src/ising20 > data/data20.dat
 echo "L = 20 done"
-./ising80 > data80.dat
+./src/ising80 > data/data80.dat
 echo "L = 80 done"
 echo "All done"

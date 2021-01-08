@@ -1,5 +1,11 @@
 #!/bin/bash
 
-./ising $1 5 1
-./ising $1 20 1
-./ising $1 80 1
+./ising 10 $1 1 t01
+./ising 22.69 $1 1 tc
+./ising 100 $1 1 t10
+
+mkdir -p data/$1
+mv t01 data/$1/
+mv tc data/$1/
+mv t10 data/$1/
+
