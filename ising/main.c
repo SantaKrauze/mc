@@ -1,4 +1,6 @@
 #include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 #include <math.h>
 
 int main(int argc, char* argv[]){
@@ -54,6 +56,21 @@ int main(int argc, char* argv[]){
 		}
 	}
 	m /= usedConfigs;
+	if(atoi(argv[3]) == 1){
+		FILE *fptr;
+		char size[3];
+		//char temp[3];
+		//snprintf(temp,sizeof(temp),"%d",T);
+		snprintf(size, sizeof(size), "%d", L);
+		fptr = fopen(size,"w");
+		for(int i = 0; i < L; i++){
+			for(int j = 0; j < L; j++){
+				fprintf(fptr,"%d\t",S[i][j]);
+			}
+			fprintf(fptr,"\n");
+		}
+		fclose(fptr);
+	}
 	printf("%.3e\t%.3f\t%d\n", m, T, L);
 
 	return 0;

@@ -2,17 +2,17 @@
 
 counter=1
 while [ $counter -le 100 ]; do
-	./ising $((counter)) 80
+	./ising $((counter)) 80 0
 	counter=$((counter+1))
 done
-./ising 21.19 80
-./ising 21.49 80
-./ising 21.79 80
-./ising 22.09 80
-./ising 22.39 80
-./ising 22.69 80
-./ising 22.99 80
-./ising 23.29 80
-./ising 23.59 80
-./ising 23.89 80
-./ising 24.19 80
+./ising 21.19 80 0
+./ising 21.49 80 0
+./ising 21.79 80 0
+./ising 22.09 80 0
+./ising 22.39 80 0
+./ising 22.69 80 0
+./ising 22.99 80 0
+./ising 23.29 80 0
+./ising 23.59 80 0
+./ising 23.89 80 0
+./ising 24.19 80 0
