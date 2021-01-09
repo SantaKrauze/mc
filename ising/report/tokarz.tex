@@ -42,99 +42,64 @@ $Data$ $oddania$ $sprawozdania:$ & $15.01.2021r$\\
 \begin{lstlisting}[basicstyle=\small]
 
 #include <stdio.h>
-#include <math.h>
 #include <stdlib.h>
-#include <time.h>
-#define N 200
+#include <string.h>
+#include <math.h>
 
-float calcX(int index, float unit);
-float calcV(float x);
-void energyToFile(float E, int step);
-void phiToFile(float phi, float x, float denominator, float unit);
-float set(float phi, float dphi);
+int main(int argc, char* argv[]){
+	long int steps = 230000;
+	//long int steps = 2300000;
+	int skip = 30000;
+	int interval = 100;
 
-int main(){
-	float unit = (float) 8 / N;
-	int steps = 1000000000;
-        int index;
-	float phiStart = 0.1;
-	float dPhi = 0.1;
-	float phi[N+1]; 
-	float U = 0, T = 0, denominator = 0, numerator, E, r, phiTrial;
-	for (int i = 0; i <= N; i++) {//setting phi and U
-		phi[i] = phiStart;
-		U += (phi[i] * phi[i] * calcV( calcX(i, unit) ));
-		denominator += phi[i] * phi[i];
+	float T = atof(argv[1])/10;
+	float R;
+	int L = atoi(argv[2]);
+	int S[L][L], P[L], N[L];
+
+	for(int i = 0; i < L; i++){//nearest neighbor
+		N[i] = i + 1;//next
+		P[i] = i - 1;//previous
 	}
+	P[0] = L-1;
+	N[L-1] = 0;
 
-	for (int i = 1; i < N; i++){
-	       	T += 0.5 * phi[i] * (2 * phi[i] - phi[i-1] - phi[i+1]);
-	}
-	T +=0.5*phi[0] * (2 * phi[0] - phi[1]);
-	T += 0.5*phi[N] * (2 * phi[N] - phi[N-1]);
-	T = T / (unit * unit);//kinetic energy
-	numerator = U + T;
-	E = numerator / denominator;//starting energy
-	float deltaPhi, dU,dT, deltaPhiSqr, newE;
-
-
-
-
-
-
-
-
-
-
-
-	for (int i = 0; i <= steps; i++){
-		r = (float)rand()/RAND_MAX;
-		index = rand() % N;
-		phiTrial = phi[index] + (r - 0.5)*dPhi;
-		deltaPhi = phiTrial - phi[index];
-		deltaPhiSqr = phiTrial * phiTrial - phi[index] * phi[index];
-		if (index == 0) dT = deltaPhiSqr - deltaPhi * phi[index+1];
-		else if (index == N) dT = deltaPhiSqr - deltaPhi * phi[index-1];
-		else dT = deltaPhiSqr  - deltaPhi * (phi[index+1] + phi[index-1]);
-		dT = dT / (unit*unit);
-		dU = deltaPhiSqr * calcV( calcX(index, unit) );
-		newE = (numerator + dU + dT) / (denominator + deltaPhiSqr);
-		if (newE < E && newE > 0){
-			phi[index] = phiTrial;
-			E = newE;
-			numerator += dU + dT;
-			denominator += deltaPhiSqr;
+	for(int i = 0; i < L; i++){//initial config
+		for(int j = 0; j < L; j++){
+			S[i][j] = 1;
 		}
-		if(i%100000==0) energyToFile(E, i);
 	}
-	for (int i = 0; i <= N;i++){
-		phiToFile(phi[i], calcX(i, unit), denominator, unit );
+
+	int dE; 
+	float omega, m = 0, mTemp, usedConfigs = (steps-skip)/interval;
+	for(int i = 1; i <= steps; i++){//main loop
+	for(int j = 0; j < L; j++){
+		for(int k = 0; k < L; k++){
+			dE = 2*S[j][k]*(S[N[j]][k]+S[P[j]][k]+S[j][N[k]]+S[j][P[k]]);
+			if(dE < 0){
+				S[j][k] = -S[j][k];
+			}
+			else{
+				omega = exp(-dE/T);
+				R = (float)rand()/RAND_MAX;
+				if(R < omega){
+					S[j][k] = -S[j][k];
+				}
+			}
+		}
 	}
-	return 0;
-}
-void phiToFile(float phi, float x, float denominator, float unit){
-	FILE *file;
-	file = fopen("phi.dat","a+");
-	float phiNorm = phi/sqrt(denominator*unit);
-	fprintf(file,"%f\t%f\n",x, phiNorm);
-	fclose(file);
-}
-void energyToFile(float E, int step){
-	FILE *file;
-	file = fopen("energy.dat","a+");
-	fprintf(file, "%f\t%d\n",step, E);
-	fclose(file);
-}
-float calcV (float x){
-	return 0.5*x*x;
-}
-float calcX(int index, float unit){
-	if (index > N || index < 0){
-		printf("%d - wrong index - out of scope\n", index);
-		return 10;
-	}
-	else return (-4 + (index * unit));
-}
+	if(atoi(argv[3]) == 1){//getting config
+		FILE *fptr;
+		fptr = fopen(argv[4],"w");
+		for(int i = 0; i < L; i++){
+			for(int j = 0; j < L; j++){
+				fprintf(fptr,"%d\t",S[i][j]);
+			}
+			fprintf(fptr,"\n");
+		}
+		fclose(fptr);
+	}	
+return 0;
 
 \end{lstlisting}
 
@@ -142,23 +107,51 @@ float calcX(int index, float unit){
 \section{Wyniki obliczeń i parametry symulacji}
 \begin{center}
 \begin{tabular}{p{5cm}|p{5cm}}
-	Energia końcowa: & $0.540255$\\
+	Ilość kroków MC: & $230 000$\\
 	\hline
-	Ilość kroków MC: & $1 000 000 000$\\
+	MCS przy obserwacji flipów: & $2 300 000$\\
 	\hline
-	$\varphi$ początkowe: & $0.1$\\
+	MCS pominięte przy średnich: & $30 000$\\
 	\hline
-	$\Delta \varphi:$ & $0.1$\\
+	Interwał: & $100$\\
 	\hline
-	Czynnik normujący: & $1.8861648$\\
+	$T^*_C:$ & $2.269$\\
+	\hline
+	$\beta:$ & $0.125$\\
+	\hline
+	$\nu:$ & $1$\\
 \end{tabular}
 \end{center}
 
 \section{Wykresy}
-\subsection{Wykres unormowanej funkcji falowej}
-%\includegraphics[width=13cm]{phi.png}
+\subsection{Przeskoki magnetyzacji na wykresie m(T*)}
+\includegraphics[width=13cm]{flips3.png}
 
-\subsection{Wykres unergii układu w toku symulacji}
-%\includegraphics[width=13cm]{energy.png}
+\subsection{Konfiguracja układu dla L = 5, T* = 0.1}
+\includegraphics[width=13cm]{conf5-01.png}
+\subsection{Konfiguracja układu dla L = 5, T* = 2.269 = Tc}
+\includegraphics[width=13cm]{conf5-tc.png}
+\subsection{Konfiguracja układu dla L = 5, T* = 10}
+\includegraphics[width=13cm]{conf5-10.png}
+
+\subsection{Konfiguracja układu dla L = 20, T* = 0.1}
+\includegraphics[width=13cm]{conf20-01.png}
+\subsection{Konfiguracja układu dla L = 20, T* = 2.269 = Tc}
+\includegraphics[width=13cm]{conf20-tc.png}
+\subsection{Konfiguracja układu dla L = 20, T* = 10}
+\includegraphics[width=13cm]{conf20-10.png}
+
+\subsection{Konfiguracja układu dla L = 80, T* = 0.1}
+\includegraphics[width=13cm]{conf80-01.png}
+\subsection{Konfiguracja układu dla L = 80, T* = 2.269 = Tc}
+\includegraphics[width=13cm]{conf80-tc.png}
+\subsection{Konfiguracja układu dla L = 80, T* = 10}
+\includegraphics[width=13cm]{conf80-10.png}
+
+\subsection{Zależność średiej magnetyzacji od temperatury zredukowanej i rozmiaru}
+\includegraphics[width=13cm]{MofT.png}
+
+\subsection{Teoria skalowania z rozmiarem}
+\includegraphics[width=13cm]{scale.png}
 
 \end{document}
