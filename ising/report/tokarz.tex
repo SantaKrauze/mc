@@ -56,7 +56,6 @@ int main(int argc, char* argv[]){
 	float R;
 	int L = atoi(argv[2]);
 	int S[L][L], P[L], N[L];
-
 	for(int i = 0; i < L; i++){//nearest neighbor
 		N[i] = i + 1;//next
 		P[i] = i - 1;//previous
@@ -109,17 +108,25 @@ return 0;
 \begin{tabular}{p{5cm}|p{5cm}}
 	Ilość kroków MC: & $230 000$\\
 	\hline
-	MCS przy obserwacji flipów: & $2 300 000$\\
+	MCS przy obserwacji przeskoków & $2 300 000$\\
 	\hline
-	MCS pominięte przy średnich: & $30 000$\\
+	MCS pominięte przy średnich & $30 000$\\
 	\hline
-	Interwał: & $100$\\
+	Interwał odczytywanych konfiguracji& $100$\\
 	\hline
-	$T^*_C:$ & $2.269$\\
+	Początkowy spin & $1$\\
 	\hline
-	$\beta:$ & $0.125$\\
+	$T^*_C$ & $2.269$\\
 	\hline
-	$\nu:$ & $1$\\
+	$\beta$ & $0.125$\\
+	\hline
+	$\nu$ & $1$\\
+	\hline
+	Krok T* & $0.1$\\
+	\hline
+	Krok T* w okolicach $T_C$ & $0.02$\\
+	\hline
+	Krok T* w okolicach $T_C$ (L=80)& $0.01$\\
 \end{tabular}
 \end{center}
 

@@ -8,3 +8,4 @@ echo "L = 20 done"
 ./src/ising80 > data/data80.dat
 echo "L = 80 done"
 echo "All done"
+echo "Data saved in data/"

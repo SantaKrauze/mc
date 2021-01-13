@@ -7,7 +7,8 @@ int main(int argc, char* argv[]){
 	long int steps = 230000;
 	//long int steps = 2300000;
 	int skip = 30000;
-	int interval = 100;
+	//int interval = 100;
+	int interval=1000;
 
 	float T = atof(argv[1])/10;
 	float R;

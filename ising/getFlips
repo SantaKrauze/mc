@@ -7,3 +7,4 @@ echo "1/3 done"
 echo "2/3 done"
 ./ising 20 15 2 > data/flips3.dat
 echo "All done"
+echo "Data saved in data/"
